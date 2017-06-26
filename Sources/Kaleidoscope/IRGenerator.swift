@@ -133,6 +133,19 @@ class IRGenerator {
                                             type: FloatType.double,
                                             signed: false)
             }
+        case .logical(let lhs, let op, let rhs):
+            let lhsVal = try emitExpr(lhs)
+            let rhsVal = try emitExpr(rhs)
+            let lhsInt = builder.buildFPToInt(lhsVal, type: .int8, signed: false)
+            let rhsInt = builder.buildFPToInt(rhsVal, type: .int8, signed: false)
+            switch op {
+            case .and:
+                let intRes = builder.buildAnd(lhsInt, rhsInt)
+                return builder.buildIntToFP(intRes, type: FloatType.double, signed: false)
+            case .or:
+                let intRes = builder.buildOr(lhsInt, rhsInt)
+                return builder.buildIntToFP(intRes, type: FloatType.double, signed: false)
+            }
         case .call(let name, let args):
             guard let prototype = file.prototype(name: name) else {
                 throw IRError.unknownFunction(name)

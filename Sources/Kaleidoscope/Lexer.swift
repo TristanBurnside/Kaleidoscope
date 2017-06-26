@@ -10,11 +10,17 @@ enum BinaryOperator: UnicodeScalar {
          mod = "%", equals = "="
 }
 
+enum LogicalOperator: String {
+    case and = "&&",
+         or = "||"
+}
+
 enum Token: Equatable {
     case leftParen, rightParen, def, extern, comma, semicolon, `if`, then, `else`
     case identifier(String)
     case number(Double)
     case `operator`(BinaryOperator)
+    case logicalOperator(LogicalOperator)
 
     static func ==(lhs: Token, rhs: Token) -> Bool {
         switch (lhs, rhs) {
@@ -29,8 +35,19 @@ enum Token: Equatable {
             return n1 == n2
         case let (.operator(op1), .operator(op2)):
             return op1 == op2
+        case let (.logicalOperator(op1), .logicalOperator(op2)):
+            return op1 == op2
         default:
             return false
+        }
+    }
+    
+    var expectedString: String? {
+        switch self {
+        case .logicalOperator(let op1):
+            return op1.rawValue
+        default:
+            return nil
         }
     }
 }
@@ -72,6 +89,22 @@ class Lexer {
         }
         return str
     }
+    
+    func consumeRest(of token: Token) -> Token? {
+        guard var expectedString = token.expectedString else {
+            return nil
+        }
+        expectedString.characters.removeFirst()
+        advanceIndex()
+        while expectedString.isEmpty == false {
+            let nextChar = expectedString.characters.removeFirst()
+            if nextChar != currentChar {
+                return nil
+            }
+            advanceIndex()
+        }
+        return token
+    }
 
     func advanceToNextToken() -> Token? {
         // Skip all spaces until a non-space token
@@ -91,10 +124,19 @@ class Lexer {
             "*": .operator(.times), "/": .operator(.divide),
             "%": .operator(.mod), "=": .operator(.equals)
         ]
+        
+        let multiTokMapping: [Character: Token] = [
+            "&": .logicalOperator(.and),
+            "|": .logicalOperator(.or)
+        ]
 
         if let tok = singleTokMapping[char] {
             advanceIndex()
             return tok
+        }
+        
+        if let tok = multiTokMapping[char] {
+            return consumeRest(of: tok)
         }
 
         // This is where we parse identifiers or numbers

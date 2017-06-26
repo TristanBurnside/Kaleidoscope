@@ -74,6 +74,12 @@ class Parser {
             let rhs = try parseExpr()
             expr = .binary(expr, op, rhs)
         }
+        
+        if case .logicalOperator(let op)? = currentToken {
+            consumeToken()
+            let rhs = try parseExpr()
+            expr = .logical(expr, op, rhs)
+        }
 
         return expr
     }

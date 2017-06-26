@@ -37,6 +37,7 @@ indirect enum Expr {
     case number(Double)
     case variable(String)
     case binary(Expr, BinaryOperator, Expr)
+    case logical(Expr, LogicalOperator, Expr)
     case ifelse(Expr, Expr, Expr)
     case call(String, [Expr])
 }
