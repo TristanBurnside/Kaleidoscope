@@ -3,6 +3,24 @@ import LLVM
 
 extension String: Error {}
 
+func shellExecute(_ args: String...) throws {
+    let task = Process()
+    task.launchPath = "/usr/bin/env"
+    task.arguments = args
+    task.launch()
+    task.waitUntilExit()
+    if (task.terminationStatus != 0) {
+        var errFileHandle: FileHandle?
+        if let errStream = task.standardError as? FileHandle {
+            errFileHandle = errStream
+        }
+        if let errStream = task.standardError as? Pipe {
+            errFileHandle = errStream.fileHandleForReading
+        }
+        throw String(data: errFileHandle!.availableData, encoding: .ascii) ?? ""
+    }
+}
+
 typealias KSMainFunction = @convention(c) () -> Void
 
 do {
@@ -36,7 +54,14 @@ do {
                                  type: .object,
                                  path: objPath.path)
     print("Successfully wrote binary object file to \(objPath.lastPathComponent)")
-
+    
+    let execPath = path.deletingPathExtension()
+    if FileManager.default.fileExists(atPath: execPath.path) {
+        try FileManager.default.removeItem(at: execPath)
+    }
+    
+    try shellExecute("clang", objPath.path, "-o", execPath.path)
+    
 } catch {
     print("error: \(error)")
     exit(-1)
