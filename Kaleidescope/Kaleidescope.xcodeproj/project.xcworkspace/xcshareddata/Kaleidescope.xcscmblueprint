@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "6CE2F5490BB3BA69965073E35B88A2A339953BE2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "6CE2F5490BB3BA69965073E35B88A2A339953BE2" : 9223372036854775807,
+    "B847C27441AF772503515589E7F8418584131191" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "03978FF4-A7AC-4DEF-AB18-6C8BA415BC27",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "6CE2F5490BB3BA69965073E35B88A2A339953BE2" : "Kaleidoscope\/",
+    "B847C27441AF772503515589E7F8418584131191" : "Kaleidoscope\/Packages\/cllvm-0.0.3\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Kaleidescope",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Kaleidescope\/Kaleidescope.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:trill-lang\/Kaleidoscope.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6CE2F5490BB3BA69965073E35B88A2A339953BE2"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/trill-lang\/cllvm.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B847C27441AF772503515589E7F8418584131191"
+    }
+  ]
+}

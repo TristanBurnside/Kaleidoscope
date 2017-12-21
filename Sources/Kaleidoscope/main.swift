@@ -34,7 +34,6 @@ do {
     let file = try Parser(tokens: toks).parseFile()
     let irGen = IRGenerator(file: file)
     try irGen.emit()
-    try irGen.module.verify()
     let llPath = path.deletingPathExtension().appendingPathExtension("ll")
     if FileManager.default.fileExists(atPath: llPath.path) {
         try FileManager.default.removeItem(at: llPath)
@@ -43,7 +42,8 @@ do {
     try irGen.module.print(to: llPath.path)
     print("Successfully wrote LLVM IR to \(llPath.lastPathComponent)")
 
-
+    try irGen.module.verify()
+  
     let objPath = path.deletingPathExtension().appendingPathExtension("o")
     if FileManager.default.fileExists(atPath: objPath.path) {
         try FileManager.default.removeItem(at: objPath)
